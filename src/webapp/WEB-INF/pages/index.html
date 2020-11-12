@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+    <style type="text/css">
+        th, td {
+            border: solid black 1px ;
+            padding: 5px 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>User`s</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Department</th>
+        <th>E-mail</th>
+        <th colspan="2">Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${allUsers}">
+        <td th:text="${user.firstName}">name</td>
+        <td th:text="${user.getLastName()}">lastname</td>
+        <td th:text="${user.getDepartment()}">department</td>
+        <td th:text="${user.getEmail()}">email</td>
+        <td>
+            <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.getId()})}">
+                <input type="submit" value="DELETE">
+            </form>
+        </td>
+        <td>
+            <form th:method="PATCH" th:action="@{/edit/{id}(id=${user.getId()})}">
+                <input type="submit" value="UPDATE">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<input type="button" value="Add new user" onclick="window.location.href='new'"/>
+</body>
+</html>
