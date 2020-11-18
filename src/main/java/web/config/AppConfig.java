@@ -46,8 +46,10 @@ public class AppConfig {
       em.setJpaProperties(getHibernateProperties());
       return em;
    }
-   Properties getHibernateProperties(){
+   @Bean
+   public Properties getHibernateProperties(){
       Properties properties = new Properties();
+      properties.put("hibernate.show_sql", env.getProperty("true"));
       properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
       properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
       return properties;

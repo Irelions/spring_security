@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+    <style type="text/css">
+        #conteiner{
+            max-width: 1000px;
+            margin: 5px auto;
+            text-align: left;
+        }
+        table{
+            margin: 25px auto;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        th, td {
+            border: solid black 1px ;
+            padding: 5px 10px;
+        }
+        h1 {
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<div id="conteiner">
+<h1>Hi, <span th:text="${user_authentication}">text</span>!</h1>
+<a href="/logout">Log out</a>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Department</th>
+        <th>E-mail</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th colspan="2">Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${allUsers}">
+        <td th:text="${user.getFirstName()}">name</td>
+        <td th:text="${user.getLastName()}">lastname</td>
+        <td th:text="${user.getDepartment()}">department</td>
+        <td th:text="${user.getEmail()}">email</td>
+        <td th:text="${user.getUsername()}">login</td>
+        <td th:text="${user.getPassword()}">password</td>
+        <td>Roles</td>
+
+<!--        <td th:each="role : ${user.getRoles()}">-->
+<!--            <p th:text="role">text</p>-->
+<!--        </td>-->
+
+<!--        <td>-->
+<!--            <select th:each="role : ${user.getRoles()}">-->
+<!--                <option th:text="${role}">option</option>-->
+<!--            </select>-->
+<!--        </td>-->
+        <td>
+            <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
+                <input type="submit" value="DELETE">
+            </form>
+        </td>
+        <td>
+            <form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}">
+                <input type="submit" value="UPDATE">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<input type="button" value="Add new user" onclick="window.location.href='new'"/>
+</div>
+</body>
+</html>

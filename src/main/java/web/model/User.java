@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.sql.RowIdLifetime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 // Для того, чтобы в дальнейшим использовать класс User в Spring Security, он должен реализовывать интерфейс UserDetails.
@@ -18,42 +19,45 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(name = "firstname")
+
     private String firstName;
 
-    @Column(name = "surname")
+
     private String lastName;
 
-    @Column(name = "department")
+
     private String department;
 
-    @Column(name = "email")
+
     private String email;
 
-    @Column(name = "username")
-    private String name; // уникальное значение
 
-    @Column(name = "password")
+    private String username; // уникальное значение
+
+
     private String password;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    @ManyToMany
-//    @JoinColumn(name = "id_role")
+//    @Transient
+    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "users_roles",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "user_roles")
     private Set<Role> roles;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String department, String email, String name, String password, Set<Role> roles) {
+    public User(Long id, String firstName, String lastName, String department, String email, String username, String password, Set<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.email = email;
-        this.name = name;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -98,12 +102,38 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -125,36 +155,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return name;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -162,7 +162,7 @@ public class User implements UserDetails {
                 ", lastName='" + lastName + '\'' +
                 ", department='" + department + '\'' +
                 ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+    <style type="text/css">
+        #conteiner{
+            max-width: 1000px;
+            margin: 5px auto;
+            text-align: left;
+        }
+        table{
+            margin: 25px auto;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        th, td {
+            border: solid black 1px ;
+            padding: 5px 10px;
+        }
+        h1 {
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<div id="conteiner">
+    <p>
+    <h1>Hi, <span th:text="${user_authentication}">text</span>!</h1>
+    <a href="/logout">Log out</a>
+</div>
+    <table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Department</th>
+        <th>E-mail</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${findUserByUsername}" >
+        <td th:text="${user.getFirstName()}">name</td>
+        <td th:text="${user.getLastName()}">lastname</td>
+        <td th:text="${user.getDepartment()}">department</td>
+        <td th:text="${user.getEmail()}">email</td>
+        <td th:text="${user.getUsername()}">login</td>
+        <td th:text="${user.getPassword()}">password</td>
+        <td th:text="ROLE">role</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+</body>
+</html>

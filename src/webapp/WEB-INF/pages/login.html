@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">-->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    <meta charset="UTF-8"><title>Login page</title>
 </head>
-<body>
+<body class="body">
 <div>
     <form method="post" action="/login">
-        <input name="j_username"/>
-        <input name="j_password"/>
-        <input type="submit"/>
+        <div>Login:</div>
+        <label>
+            <input name="j_username"/>
+        </label>
+        <br>
+        <div>Password:</div>
+        <label>
+            <input name="j_password" type="password"/>
+        </label>
+        <br><br>
+        <input type="submit" value="Log in"/>
     </form>
 </div>
 </body>
